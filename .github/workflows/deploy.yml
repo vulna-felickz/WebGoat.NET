@@ -1,0 +1,24 @@
+name: Deployment
+
+on:
+  workflow_run:
+    workflows: [CodeQL]
+    types: [completed]
+    
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    environment: 
+      name: Development
+      url: https://github.com
+    steps:
+        #https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_run
+      - name: succeeded build - deploy
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        run: |
+          echo 'Deploying... '
+      - name: failed build - no deploy
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        run: |
+          echo 'NOT deploying... '
+          exit 1
