@@ -1,12 +1,10 @@
 name: Deployment
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ master ]
-
+  workflow_run:
+    workflows: [CodeQL]
+    types: [completed]
+    
 jobs:
   deployment:
     runs-on: ubuntu-latest
@@ -14,6 +12,13 @@ jobs:
       name: Development
       url: https://github.com
     steps:
-      - name: deploy
+        #https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_run
+      - name: succeeded build - deploy
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
         run: |
-          echo 'Deploying... '     
+          echo 'Deploying... '
+      - name: failed build - no deploy
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        run: |
+          echo 'NOT deploying... '
+          exit 1
