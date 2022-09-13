@@ -7,8 +7,8 @@ on:
 jobs:
   deployment:
     runs-on: ubuntu-latest
-    #NOTE: need to check that ALL analyses are completed here else check_run.conclusion: "success" && output.title: "1 analysis not found"
-    if: ${{ github.event.check_run.name == 'CodeQL' && github.event.check_run.status == 'completed' }}
+    #NOTE: need to check that ALL analyses are completed via check_run.status != 'neutral' here since there is no other indicators (aside from output.title: "1 analysis not found") -> check_run.status: "completed" && check_run.conclusion: "success" 
+    if: ${{ github.event.check_run.name == 'CodeQL' && github.event.check_run.conclusion != 'neutral'}}
     environment: 
       name: Development
       url: https://github.com
