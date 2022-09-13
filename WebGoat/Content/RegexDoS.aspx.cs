@@ -21,7 +21,7 @@ namespace OWASP.WebGoat.NET
             string password = txtPassword.Text;
             
             Regex testPassword = new Regex(userName);
-            Regex anotherOne3 = new Regex(userName);
+            Regex anotherOne4 = new Regex(userName);
             Match match = testPassword.Match(password);
             if (match.Success)
             {
