@@ -1,24 +1,27 @@
 name: Deployment
 
 on:
-  workflow_run:
-    workflows: [CodeQL]
-    types: [completed]
+  check_run:
+    types: [completed]    
     
 jobs:
   deployment:
     runs-on: ubuntu-latest
+    if: ${{ github.event.check_run.name == 'CodeQL' }}
     environment: 
       name: Development
       url: https://github.com
     steps:
-        #https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_run
-      - name: succeeded build - deploy
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        #https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#check_run
+      - name: CodeQL Check Summary
+        run: |
+          echo ${{ github.event.check_run.output.title }}
+      - name: CodeQL Check Suceeded - deploy
+        if: ${{ github.event.check_run.conclusion == 'success' }}
         run: |
           echo 'Deploying... '
-      - name: failed build - no deploy
-        if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+      - name: CodeQL Check Failed - no deploy
+        if: ${{ github.event.check_run.conclusion == 'failure' }}
         run: |
           echo 'NOT deploying... '
           exit 1
