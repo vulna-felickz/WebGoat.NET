@@ -24,7 +24,7 @@ namespace OWASP.WebGoat.NET
 
 	    protected void CreateAccountButton_Click(object sender, EventArgs e)
 	    {
-	        MembershipCreateStatus createStatus;
+	        MembershipCreateStatus createStatus
 	
 	        MembershipUser newUser = 
 	             Membership.CreateUser(Username.Text, Password.Text,
