@@ -10,6 +10,7 @@ namespace OWASP.WebGoat.NET
         protected void Page_Load(object sender, EventArgs e)
         {
 
+
         }
 
         /// <summary>
@@ -19,8 +20,9 @@ namespace OWASP.WebGoat.NET
         {
             string userName = txtUsername.Text;
             string password = txtPassword.Text;
-
+            
             Regex testPassword = new Regex(userName);
+            Regex anotherOne4 = new Regex(userName);
             Match match = testPassword.Match(password);
             if (match.Success)
             {
